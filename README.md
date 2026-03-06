@@ -63,3 +63,6 @@ Com o ambiente ativado (venv), instale as bibliotecas necessárias para esse pro
   ```
 
 # Evidências
+**Resultado no terminal:**<br/>
+<img width="738" height="789" alt="image" src="https://github.com/user-attachments/assets/2805ff77-f23c-4ebe-a224-b939028203d0" />
+
