@@ -26,7 +26,7 @@ VALUES  ('101', 'SIMPLES', 1, 150.00, 'DISPONIVEL'),
 		('402', 'LUXO', 3, 750.00, 'DISPONIVEL'),
 		('501', 'LUXO', 4, 1000.00, 'DISPONIVEL');
 
-INSERT INTO hospede (nome, documento, email, telefone) 
+INSERT INTO hospede (nome, cpf, email, telefone) 
 VALUES  ('Ana Maria Silva', '123.456.789-00', 'AnaMar.silva@email.com', '(85) 900001111'),
 		('Carlos Douglas Souza', '98765432100', 'carlosD.souza@email.com', '(21) 912348765'),
 		('Mariana Lima Albuquerque', '111.222.333-44', 'mari.lima@email.com', '(11) 998761234'),
