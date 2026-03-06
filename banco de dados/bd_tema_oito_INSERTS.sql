@@ -1,8 +1,3 @@
--- ===============================
--- ETAPA 3 - PROJETO FINAL
--- Carga de dados (INSERTs)
--- ===============================
-
 -- Os dados são inseridos primeiro nas tabelas independentes
 -- Para que seus IDs existam antes de os inserir nas tabelas dependentes
 
