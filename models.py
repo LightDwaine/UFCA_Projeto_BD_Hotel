@@ -3,9 +3,7 @@ from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
-# ==========================================
 # TABELAS INDEPENDENTES
-# ==========================================
 class Hospede(Base):
     __tablename__ = 'hospede'
     id_hospede = Column(Integer, primary_key=True, autoincrement=True)
@@ -38,9 +36,8 @@ class Temporada(Base):
     data_fim = Column(Date, nullable=False)
     multiplicador = Column(Numeric(4, 2), nullable=False)
 
-# ==========================================
-# TABELAS DEPENDENTES (Com Foreign Keys)
-# ==========================================
+
+# TABELAS DEPENDENTES
 class Reserva(Base):
     __tablename__ = 'reserva'
     id_reserva = Column(Integer, primary_key=True, autoincrement=True)
@@ -69,6 +66,7 @@ class Manutencao(Base):
     data_fim = Column(DateTime)
     motivo = Column(String(255), nullable=False)
 
+    # Relacionamento N-1 (Muitas manutenções para 1 quarto)
     quarto = relationship("Quarto", back_populates="manutencoes")
 
 class Adicional(Base):
@@ -79,6 +77,7 @@ class Adicional(Base):
     valor = Column(Numeric(10, 2), nullable=False)
     data_lancamento = Column(DateTime, nullable=False)
 
+    # Relacionamento N-1 (Muitos adicionais para 1 reserva)
     reserva = relationship("Reserva", back_populates="adicionais")
 
 class Pagamento(Base):
@@ -89,4 +88,5 @@ class Pagamento(Base):
     forma_pagamento = Column(String(50), nullable=False)
     valor = Column(Numeric(10, 2), nullable=False)
 
+    # Relacionamento N-1 (Muitos pagamentos para 1 reserva)
     reserva = relationship("Reserva", back_populates="pagamentos")

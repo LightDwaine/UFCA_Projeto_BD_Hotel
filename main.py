@@ -23,17 +23,17 @@ print("Conectado ao banco de dados com sucesso!\n")
 print("--- EXECUTANDO CRUD ---")
 
 # CREATE: Inserir pelo menos 3 registros
-novo_hospede1 = Hospede(nome="Lucas Python", cpf="123123123", email="lucas@python.com", telefone="1199999999")
-novo_hospede2 = Hospede(nome="Maria Silva", cpf="456456456", email="maria@sql.com", telefone="2188888888")
-novo_hospede3 = Hospede(nome="João Delete", cpf="789789789", email="joao@delete.com", telefone="3177777777")
+novo_hospede1 = Hospede(nome="Lucas Python Java", cpf="12312312332", email="lucasPydoJava@gmail.com", telefone="21 912345678")
+novo_hospede2 = Hospede(nome="Maria Roberta Silva", cpf="45645645665", email="MRobertaSD@orkut.com", telefone="11 982315678")
+novo_hospede3 = Hospede(nome="João Teixeira Filho", cpf="78978978922", email="joaoTexi.212@gmail.com", telefone="86 987897722")
 
 session.add_all([novo_hospede1, novo_hospede2, novo_hospede3])
 session.commit()
-print("➕ CREATE: 3 Hóspedes inseridos com sucesso!")
+print("CREATE: 3 Hóspedes inseridos com sucesso!")
 
 # READ: Listar registros com ordenação
 quartos = session.query(Quarto).order_by(Quarto.tarifa_base.desc()).all()
-print("\n📖 READ: Lista de Quartos ordenados por tarifa (do mais caro pro mais barato):")
+print("\nREAD: Lista de Quartos ordenados por tarifa (do mais caro pro mais barato):")
 for q in quartos:
     print(f"Quarto {q.numero} - {q.tipo} - R$ {q.tarifa_base}")
 
@@ -42,31 +42,28 @@ quarto_para_atualizar = session.query(Quarto).filter_by(numero='101').first()
 if quarto_para_atualizar:
     quarto_para_atualizar.status = 'MANUTENCAO'
     session.commit()
-    print(f"\n✏️ UPDATE: Status do quarto {quarto_para_atualizar.numero} alterado para {quarto_para_atualizar.status}.")
+    print(f"\nUPDATE: Status do quarto {quarto_para_atualizar.numero} alterado para {quarto_para_atualizar.status}.")
 
 # DELETE: Remover 1 registro (Respeitando integridade, apagamos o hóspede sem reservas)
-hospede_deletar = session.query(Hospede).filter_by(nome="João Delete").first()
+hospede_deletar = session.query(Hospede).filter_by(nome="João Teixeira Filho").first()
 if hospede_deletar:
     session.delete(hospede_deletar)
     session.commit()
-    print(f"\n🗑️ DELETE: Hóspede '{hospede_deletar.nome}' removido com sucesso!")
+    print(f"\nDELETE: Hóspede '{hospede_deletar.nome}' removido com sucesso!")
 
-
-# ==========================================
 # PARTE 4: CONSULTAS COM RELACIONAMENTO
-# ==========================================
 print("\n--- EXECUTANDO CONSULTAS ORM ---")
 
-# Consulta 1 (JOIN): Listar entidades A trazendo dados de B
+# Consulta 1: Listar entidades A trazendo dados de B
 # Objetivo: Ver quais hóspedes estão com reserva em status de CHECKIN
-print("\n🔍 Consulta 1 (JOIN): Hóspedes atualmente no hotel (CHECKIN)")
+print("\nConsulta 1 (JOIN): Hóspedes atualmente no hotel (com status CHECKIN)")
 hospedes_checkin = session.query(Hospede, Reserva).join(Reserva).filter(Reserva.status == 'CHECKIN').all()
 for hospede, reserva in hospedes_checkin:
     print(f"Hóspede: {hospede.nome} | Entrada: {reserva.data_entrada}")
 
-# Consulta 2 (JOIN + Agregação):
-# Objetivo: Total pago por cada reserva usando relacionamento
-print("\n🔍 Consulta 2 (Agregação + JOIN): Total recebido por reserva")
+# Consulta 2 
+# Objetivo: Ver o total pago por cada reserva
+print("\nConsulta 2 (Agregação + JOIN): Total recebido por reserva")
 total_pagamentos = session.query(
     Reserva.id_reserva, 
     func.sum(Pagamento.valor).label('total_pago')
@@ -75,9 +72,9 @@ total_pagamentos = session.query(
 for reserva_id, total in total_pagamentos:
     print(f"Reserva ID: {reserva_id} | Total Pago: R$ {total}")
 
-# Consulta 3 (Filtro + Ordenação):
-# Objetivo: Top 3 itens adicionais mais caros já consumidos
-print("\n🔍 Consulta 3 (Filtro + Ordenação): Top 3 consumos mais caros")
+# Consulta 3
+# Objetivo: Ver o top 3 itens adicionais mais caros já consumidos
+print("\nConsulta 3 (Filtro + Ordenação): Top 3 consumos mais caros")
 top_adicionais = session.query(Adicional).filter(Adicional.valor > 10).order_by(desc(Adicional.valor)).limit(3).all()
 for ad in top_adicionais:
     print(f"Item: {ad.descricao} | Valor: R$ {ad.valor}")
